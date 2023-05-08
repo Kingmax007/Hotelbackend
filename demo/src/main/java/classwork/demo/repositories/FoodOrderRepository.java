@@ -1,7 +1,7 @@
 package classwork.demo.repositories;
 
-import classwork.demo.entity.Discount;
-import classwork.demo.entity.User;
+import classwork.demo.dto.Discount;
+import classwork.demo.dto.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package classwork.demo.service;
 
-import classwork.demo.entity.Discount;
+import classwork.demo.dto.Discount;
 import classwork.demo.repositories.DiscountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package classwork.demo.entity;
+package classwork.demo.dto;
 
 import classwork.demo.enums.RoomType;
 import jakarta.persistence.*;

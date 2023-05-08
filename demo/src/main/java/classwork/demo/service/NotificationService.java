@@ -1,6 +1,6 @@
 package classwork.demo.service;
 
-import classwork.demo.entity.Notification;
+import classwork.demo.dto.Notification;
 import classwork.demo.repositories.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

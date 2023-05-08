@@ -1,6 +1,6 @@
 package classwork.demo.service;
 
-import classwork.demo.entity.User;
+import classwork.demo.dto.User;
 import classwork.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package classwork.demo.repositories;
 
-import classwork.demo.entity.Notification;
+import classwork.demo.dto.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

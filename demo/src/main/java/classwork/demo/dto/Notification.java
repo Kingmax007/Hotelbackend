@@ -1,13 +1,12 @@
-package classwork.demo.entity;
+package classwork.demo.dto;
 
 import classwork.demo.enums.RoomType;
-import org.springframework.data.annotation.Id;
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-public class HotelBooking {
-    @jakarta.persistence.Id
+public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,14 +19,6 @@ public class HotelBooking {
 
     private LocalDateTime checkInDateTime;
     private LocalDateTime checkOutDateTime;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     // Constructors, getters, and setters
 }
