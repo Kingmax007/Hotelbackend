@@ -1,4 +1,4 @@
-package classwork.demo.controller;
+package classwork.demo.web;
 
 import classwork.demo.dto.User;
 import classwork.demo.service.UserService;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/kings/users")
-public class NotificationController {
+@RequestMapping("//users")
+public class UserController {
     @Autowired
     private UserService userService;
 
@@ -23,8 +23,8 @@ public class NotificationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        Optional<User> user = userService.getUserById(Long.valueOf(id))
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        Optional<User> user = userService.getUserById(id)
                 ;
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
@@ -39,18 +39,17 @@ public class NotificationController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
-//        Optional<User> existingUser = userService.getUserById(Long.valueOf(id))
-//                ;
-//        if (existingUser.isPresent()) {
-//            user.setId(Long.valueOf(id));
-//            User updatedUser = userService.updateUser(user);
-//            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        Optional<User> existingUser = userService.getUserById(id);
+        if (existingUser.isPresent()) {
+          //  user.setId(id);
+            User updatedUser = userService.updateUser(user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
@@ -71,4 +70,3 @@ public class NotificationController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
-

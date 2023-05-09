@@ -1,4 +1,4 @@
-package classwork.demo.controller;
+package classwork.demo.web;
 
 public class DiscountController {
 }

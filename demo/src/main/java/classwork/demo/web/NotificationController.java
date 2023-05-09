@@ -1,4 +1,4 @@
-package classwork.demo.controller;
+package classwork.demo.web;
 
 import classwork.demo.dto.User;
 import classwork.demo.service.UserService;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/kings/users")
-public class FoodOrderController {
+public class NotificationController {
     @Autowired
     private UserService userService;
 
@@ -23,8 +23,8 @@ public class FoodOrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.getUserById(id)
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+        Optional<User> user = userService.getUserById(Long.valueOf(id))
                 ;
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
@@ -40,16 +40,16 @@ public class FoodOrderController {
     }
 
 //    @PutMapping("/{id}")
-//    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-////        Optional<User> existingUser = userService.getUserById(id)
-////                ;
-////        if (existingUser.isPresent()) {
-////            user.setId(id);
-////            User updatedUser = userService.updateUser(user);
-////            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-////        } else {
-////            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-////        }
+//    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
+//        Optional<User> existingUser = userService.getUserById(Long.valueOf(id))
+//                ;
+//        if (existingUser.isPresent()) {
+//            user.setId(Long.valueOf(id));
+//            User updatedUser = userService.updateUser(user);
+//            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
 //    }
 
     @DeleteMapping("/{id}")

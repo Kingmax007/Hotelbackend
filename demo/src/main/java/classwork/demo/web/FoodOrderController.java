@@ -1,4 +1,4 @@
-package classwork.demo.controller;
+package classwork.demo.web;
 
 import classwork.demo.dto.User;
 import classwork.demo.service.UserService;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/kings/users")
-public class HotelBookingController {
+public class FoodOrderController {
     @Autowired
     private UserService userService;
 
@@ -41,14 +41,15 @@ public class HotelBookingController {
 
 //    @PutMapping("/{id}")
 //    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-//        Optional<User> existingUser = userService.getUserById(id);
-//        if (existingUser.isPresent()) {
-//            user.setId(id);
-//            User updatedUser = userService.updateUser(user);
-//            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
+////        Optional<User> existingUser = userService.getUserById(id)
+////                ;
+////        if (existingUser.isPresent()) {
+////            user.setId(id);
+////            User updatedUser = userService.updateUser(user);
+////            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+////        } else {
+////            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+////        }
 //    }
 
     @DeleteMapping("/{id}")

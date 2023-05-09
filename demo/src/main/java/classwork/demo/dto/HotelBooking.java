@@ -1,11 +1,20 @@
 package classwork.demo.dto;
 
 import classwork.demo.enums.RoomType;
+import lombok.*;
 import org.springframework.data.annotation.Id;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@Table(name = "hotelbooking")
 public class HotelBooking {
     @jakarta.persistence.Id
     @Id

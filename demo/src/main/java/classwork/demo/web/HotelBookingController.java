@@ -1,4 +1,4 @@
-package classwork.demo.controller;
+package classwork.demo.web;
 
 import classwork.demo.dto.User;
 import classwork.demo.service.UserService;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("//users")
-public class UserController {
+@RequestMapping("/kings/users")
+public class HotelBookingController {
     @Autowired
     private UserService userService;
 
@@ -39,17 +39,17 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        Optional<User> existingUser = userService.getUserById(id);
-        if (existingUser.isPresent()) {
-          //  user.setId(id);
-            User updatedUser = userService.updateUser(user);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+//        Optional<User> existingUser = userService.getUserById(id);
+//        if (existingUser.isPresent()) {
+//            user.setId(id);
+//            User updatedUser = userService.updateUser(user);
+//            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
@@ -70,3 +70,4 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
+
