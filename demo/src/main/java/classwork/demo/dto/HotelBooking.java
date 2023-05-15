@@ -1,10 +1,9 @@
 package classwork.demo.dto;
 
-import classwork.demo.enums.RoomType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder
@@ -16,27 +15,38 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "hotelbooking")
 public class HotelBooking {
-    @jakarta.persistence.Id
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
-    @Enumerated(EnumType.STRING)
-    private RoomType roomType;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     private LocalDateTime checkInDateTime;
     private LocalDateTime checkOutDateTime;
 
-    public void setId(Long id) {
-        this.id = id;
+
+    public Discount getDiscount() {
+        return user.getDiscount();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    // Constructors, getters, and setters
 }
+
+
+
+
+
+
+

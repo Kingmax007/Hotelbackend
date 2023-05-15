@@ -1,6 +1,11 @@
 package classwork.demo.web;
 
+import classwork.demo.dto.Discount;
 import classwork.demo.dto.User;
+import classwork.demo.enums.Loyalty;
+import classwork.demo.exceptions.ResourceNotFoundException;
+import classwork.demo.realdto.UserCreateDTO;
+import classwork.demo.repositories.UserRepository;
 import classwork.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,65 +13,78 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
-@RequestMapping("//users")
+@RequestMapping("api/v1/users")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
+    // Get all users
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    public List<User> getAllUsers() {
+        return userService.getAllUser();
     }
 
+    // Get a user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.getUserById(id)
-                ;
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.getUserById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+        return ResponseEntity.ok().body(user);
     }
 
+    // Create a new user
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    public ResponseEntity<User> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+        User user = convertToUser(userCreateDTO);
+        user.setDiscount(Discount.getDiscountForUser(user));
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    }
+
+    private User convertToUser(UserCreateDTO userCreateDTO) {
+        return User.builder()
+                .username(userCreateDTO.getUsername())
+                .password(userCreateDTO.getPassword())
+                .email(userCreateDTO.getEmail())
+                .firstName(userCreateDTO.getFirstName())
+                .lastName(userCreateDTO.getLastName())
+                .loyalty(Loyalty.BRONZE)
+                .discount(Discount.NO_DISCOUNT) // Set the default discount value to NO_DISCOUNT
+                .build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        Optional<User> existingUser = userService.getUserById(id);
-        if (existingUser.isPresent()) {
-          //  user.setId(id);
-            User updatedUser = userService.updateUser(user);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserCreateDTO userCreateDTO) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
 
+        // Update the user's fields
+        existingUser.setUsername(userCreateDTO.getUsername());
+        existingUser.setPassword(userCreateDTO.getPassword());
+        existingUser.setEmail(userCreateDTO.getEmail());
+        existingUser.setFirstName(userCreateDTO.getFirstName());
+        existingUser.setLastName(userCreateDTO.getLastName());
+
+        // Save the updated user
+        User updatedUser = userRepository.save(existingUser);
+        return ResponseEntity.ok().body(updatedUser);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id)
-        ;
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/search/firstName/{firstName}")
-    public ResponseEntity<List<User>> searchUsersByFirstName(@PathVariable String firstName) {
-        List<User> users = userService.searchUsersByFirstName(firstName);
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
 
-    @GetMapping("/search/lastName/{lastName}")
-    public ResponseEntity<List<User>> searchUsersByLastName(@PathVariable String lastName) {
-        List<User> users = userService.searchUsersByLastName(lastName);
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
 }

@@ -10,36 +10,30 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+
+    // Find all rooms
+    public List<User> getAllUser() {
+        return userRepository.findAll();
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id)
-        ;
-    }
-
+    // Find a User by ID
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    // Save a User
+    public User saveUser(User User) {
+        return userRepository.save(User);
     }
 
-    public List<User> searchUsersByFirstName(String firstName) {
-        return userRepository.findByFirstNameContaining(firstName);
-    }
 
-    public List<User> searchUsersByLastName(String lastName) {
-        return userRepository.findByLastNameContaining(lastName);
+    // Delete a User by ID
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
 
