@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("api/v1/rooms")
 public class RoomController {
 

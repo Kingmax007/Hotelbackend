@@ -7,6 +7,7 @@ import classwork.demo.exceptions.ResourceNotFoundException;
 import classwork.demo.realdto.UserCreateDTO;
 import classwork.demo.repositories.UserRepository;
 import classwork.demo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
@@ -40,14 +41,14 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    // Create a new user
+    // Create a new user#
+    @CrossOrigin(originPatterns = "http://localhost:3000")
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody UserCreateDTO userCreateDTO) {
-        User user = convertToUser(userCreateDTO);
-        user.setDiscount(Discount.getDiscountForUser(user));
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    public User createUser(@Valid @RequestBody User user) {
+        return userService.saveUser(user);
     }
+
+
 
     private User convertToUser(UserCreateDTO userCreateDTO) {
         return User.builder()
